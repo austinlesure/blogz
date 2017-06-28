@@ -17,10 +17,27 @@
             h1 {
                 text-align: center;
             }
+            nav ul li {
+                display: inline;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            nav ul {
+                padding: 0px;
+                text-align: center;
+                margin-right: auto;
+                margin-lef: auto;
+            }
         </style>
     </head>
 <body>
     <h1>The Blogz!</h1>
+    <nav>
+        <ul>
+            <li><a href='/blog'>Main Page</a></li>
+            <li><a href='/newpost'>New Post</a></li>
+        </ul>
+    </nav>
     {% block content %}
     {% endblock %}
 

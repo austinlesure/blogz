@@ -1,19 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method='POST'>
-        <label>
-            New Blog Post:
-        </label>
-        <br />
-        <input type="text" name='blog_title' id='blog_title' placeholder="Blog Post Title"/>
-        <br />
-        <textarea name='blog_body' id='blog_body' placeholder="Blog Post Body"></textarea>
-        <br />
-        <input type="submit" value='Post Blog' />
-    </form>
-
-    <hr />
 
     {% if blogs|length == 0 %}
     <p>No blog posts yet</p>
