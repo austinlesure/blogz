@@ -5,11 +5,13 @@
             New Blog Post:
         </label>
         <br />
-        <input type="text" name='blog_title' id='blog_title' placeholder="Blog Post Title"/>
+        <input type="text" name='blog_title' id='blog_title' placeholder="Blog Post Title" value="{{blog_title}}"/>
         <br />
-        <textarea name='blog_body' id='blog_body' placeholder="Blog Post Body"></textarea>
+        <textarea name='blog_body' id='blog_body' placeholder="Blog Post Body">{{blog_body}}</textarea>
         <br />
         <input type="submit" value='Post Blog' />
     </form>
+    <p class='error'>{{error_msg}}</p>
+    <p class='error'>{{error_msg_2}}</p>
     <hr />
 {% endblock %}

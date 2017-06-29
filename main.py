@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://__user__:__password__@localhost:3306/sandwichees'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://_______________@localhost:3306/sandwichees'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
@@ -27,8 +27,15 @@ def index():
 def newpost():
     blogs = Blog.query.all()
     if request.method == 'POST':
-        blog_title = request.form['blog_title']
+        error_msg = ''
+        blog_title = request.form['blog_title']        
         blog_body = request.form['blog_body']
+        if len(blog_title) == 0:
+            error_msg = ' Title Missing! '
+        if len(blog_body) == 0:
+            error_msg += ' Body Empty! '
+        if len(blog_title) == 0 or len(blog_body) == 0:
+            return render_template('newpost.html',title="The Blogz!", blog_title = blog_title, blog_body = blog_body, error_msg = error_msg)
         new_blog = Blog(blog_title, blog_body)
         db.session.add(new_blog)
         db.session.commit()
