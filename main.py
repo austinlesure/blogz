@@ -26,9 +26,10 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120))
     password = db.Column(db.String(32))
-    blogs = db.relationship('Blog', backref='owner')
+    blogs = db.relationship('Blog', backref='user')
 
-    def __init__(self, username, password):
+    def __init__(self, id, username, password):
+        self.id = id
         self.username = username
         self.password = password
 
@@ -44,6 +45,7 @@ def index():
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
+    user = User.query.filter_by(id=session['user']).first()
     blogs = Blog.query.all()
     if request.method == 'POST':
         user = session['user']
@@ -56,7 +58,7 @@ def newpost():
             error_msg += ' Body Empty! '
         if len(blog_title) == 0 or len(blog_body) == 0:
             return render_template('newpost.html',title="The Blogz!", blog_title = blog_title, blog_body = blog_body, error_msg = error_msg)
-        new_blog = Blog(blog_title, blog_body, user.id)
+        new_blog = Blog(blog_title, blog_body, user)
         db.session.add(new_blog)
         db.session.commit()
         return redirect('/blog?id=' + str(new_blog.id))
@@ -88,7 +90,7 @@ def login():
             error_msg = 'Password incorrect'
             return render_template('login.html', title = 'Login', user = user.username, error_msg = error_msg)
         else:
-            session['user'] = user
+            session['user'] = user.id
             return redirect('/')
     else:
         return render_template('login.html')
@@ -105,7 +107,7 @@ def signup():
             new_user = User(username, password)
             db.session.add(new_user)
             db.session.commit()
-            session['user'] = user
+            session['user'] = user.id
             return redirect('/')
         else:
             error_msg = 'Duplicate User'
