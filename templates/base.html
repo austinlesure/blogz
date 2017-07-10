@@ -2,42 +2,13 @@
 <html>
     <head>
         <title>{{title}}</title>
-        <style media="screen">
-            textarea {
-                width: 540px;
-                height: 135px;
-            }
-            html {
-                width: 80%;
-                margin-left: auto;
-                margin-right: auto;
-                font-family: sans-serif;
-                background-color: lightgrey;
-            }
-            h1 {
-                text-align: center;
-            }
-            nav ul li {
-                display: inline;
-                margin-left: 20px;
-                margin-right: 20px;
-            }
-            nav ul {
-                padding: 0px;
-                text-align: center;
-                margin-right: auto;
-                margin-lef: auto;
-            }
-            .error{
-                color: red;
-                text-align: center;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
     </head>
 <body>
     <h1>The Blogz!</h1>
     <nav>
         <ul>
+            <li><a href='/login'>Login</a></li>
             <li><a href='/blog'>Main Page</a></li>
             <li><a href='/newpost'>New Post</a></li>
         </ul>
