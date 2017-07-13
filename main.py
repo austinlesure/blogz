@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = '____________@localhost:3306/sandwichees'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://____________@localhost:3306/sandwichees'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'oh_so_secret'
@@ -113,13 +113,7 @@ def signup():
         password = request.form['password']
         verify = request.form['verify']
         existing_user = User.query.filter_by(username=username).first()
-        if not existing_user:
-            new_user = User(username, password)
-            db.session.add(new_user)
-            db.session.commit()
-            session['user'] = new_user.username
-            return redirect('/')
-        else:
+        if existing_user:
             error_msg = 'Duplicate User'
             return render_template('signup.html', title = 'Sign Up', error_msg = error_msg)
         if len(username) < 3 or len(password) < 3:
@@ -128,6 +122,11 @@ def signup():
         if password != verify:
             error_msg = 'Passwords do not match'
             return render_template('signup.html', title = 'Sign Up', username = username, error_msg = error_msg)
+        new_user = User(username, password)
+        db.session.add(new_user)
+        db.session.commit()
+        session['user'] = new_user.username
+        return redirect('/')
         
     return render_template('signup.html', title = 'Sign Up')
 
